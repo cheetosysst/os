@@ -17,7 +17,7 @@ os:
 bootdisk: bootloader os
 	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880 status=progress
 	dd conv=notrunc if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
-	dd conv=notrunc if=$(OS)         of=$(DISK_IMG) bs=512 count=1 seek=1
+	dd conv=notrunc if=$(OS) of=$(DISK_IMG) bs=512 count=1 seek=1
 
 clean:
 	make -C bootloader clean
