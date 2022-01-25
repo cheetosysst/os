@@ -5,6 +5,7 @@ DISK_IMG=disk.img
 
 all: bootdisk
 	qemu-system-i386 -machine q35 -fda $(BUILD_DIR)/$(DISK_IMG) -gdb tcp::26000 -S
+
 .PHONY: bootdisk bootloader os
 
 bootloader:
@@ -19,7 +20,8 @@ bootdisk: bootloader os
 	dd conv=notrunc if=$(OS)         of=$(DISK_IMG) bs=512 count=1 seek=1
 
 clean:
-	rm -rf $(BUILD_DIR)/*
+	make -C bootloader clean
+	make -C os clean
 
 debug:
 	gdb --command=gdb.txt 
