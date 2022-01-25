@@ -4,7 +4,7 @@ OS=$(BUILD_DIR)/os/sample.o
 DISK_IMG=disk.img
 
 all: bootdisk
-	qemu-system-i386 -machine q35 -fda $(BUILD_DIR)/$(DISK_IMG) -gdb tcp::26000 -S
+	qemu-system-i386 -machine q35 -fda $(DISK_IMG) -gdb tcp::26000 -S
 
 .PHONY: bootdisk bootloader os
 

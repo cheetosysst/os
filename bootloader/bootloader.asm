@@ -8,20 +8,20 @@ boot:
 	cli
 	cld
 	
-	mov ax, 0x50
+	; mov ax, 0x50
 
-	mov es, ax
-	xor bx, ax
+	; mov es, ax
+	; xor bx, ax
 
-	mov al, 2	; read 2 sectors
-	mov ch, 0	; track 0
-	mov cl, 2	; sector 2
-	mov dh, 0	; head number
-	mov dl, 0	; drive number
+	; mov al, 2	; read 2 sectors
+	; mov ch, 0	; track 0
+	; mov cl, 2	; sector 2
+	; mov dh, 0	; head number
+	; mov dl, 0	; drive number
 
-	mov ah, 0x02	; read sectors from disk
-	int 0x13
-	jmp 0x50: 0x0
+	; mov ah, 0x02	; read sectors from disk
+	; int 0x13
+	; jmp 0x50: 0x0
 
 	hlt
 
