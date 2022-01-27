@@ -1,27 +1,21 @@
 BUILD_DIR=build
-BOOTLOADER=$(BUILD_DIR)/bootloader/bootloader.o
-OS=$(BUILD_DIR)/os/sample.o
 DISK_IMG=disk.img
+KERNEL=$(BUILD_DIR)/kernel/kernel
 
-all: bootdisk
-	qemu-system-i386 -machine q35 -fda $(DISK_IMG) -gdb tcp::26000 -S
+all: os
+	qemu-system-i386 -machine q35 -kernel $(KERNEL) -serial stdio
 
-.PHONY: bootdisk bootloader os
-
-bootloader:
-	make -C bootloader
+.PHONY: kernel
 
 os:
-	make -C os
-
-bootdisk: bootloader os
-	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880 status=progress
-	dd conv=notrunc if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
-	dd conv=notrunc if=$(OS) of=$(DISK_IMG) bs=512 count=1 seek=1
+	make -C kernel
 
 clean:
 	make -C bootloader clean
 	make -C os clean
 
 debug:
+	qemu-system-i386 -machine q35 -kernel $(KERNEL) -gdb tcp::26000 -S
+
+gdb:
 	gdb --command=gdb.txt 
