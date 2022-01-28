@@ -11,8 +11,7 @@ os:
 	make -C kernel
 
 clean:
-	make -C bootloader clean
-	make -C os clean
+	make -C kernel clean
 
 debug:
 	qemu-system-i386 -machine q35 -kernel $(KERNEL) -gdb tcp::26000 -S
