@@ -14,7 +14,7 @@ clean:
 	make -C kernel clean
 
 debug:
-	qemu-system-i386 -machine q35 -kernel $(KERNEL) -gdb tcp::26000 -S
+	qemu-system-i386 -machine q35 -kernel $(KERNEL) -gdb tcp::26000 -S -serial stdio
 
 gdb:
 	gdb --command=gdb.txt 
