@@ -1,15 +1,7 @@
 #include "io.h"
-
-#define FB_COMMAND_PORT 0x3d4
-#define FB_DATA_PORT 0x3d5
-#define FB_COMMAND_HIGH 14
-#define FB_COMMAND_LOW 15
+#include "console.h"
 
 static char *kernel_console_address = (char *) 0xb8000;
-
-void kernel_console_cursor(unsigned short pos);
-void kernel_console_clear();
-void kernel_console_print();
 
 void kernel_console_cursor (unsigned short pos) {
 	outb(FB_COMMAND_PORT, FB_COMMAND_HIGH);
