@@ -11,7 +11,7 @@
  * 
  * @param pos 
  */
-void kernel_console_cursor();
+void kernel_console_cursor (unsigned short pos);
 
 /**
  * @brief Clear the whole kernel console.
@@ -24,6 +24,6 @@ void kernel_console_clear();
  * 
  * @param str 
  */
-void kernel_console_print();
+void kernel_console_print(char *str);
 
 #endif
