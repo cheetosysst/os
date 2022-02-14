@@ -48,7 +48,7 @@ int serial_check_fifo_empty(unsigned int com) {
 	return inb(SERIAL_LINE_STATUS_PORT(com)) & 0x20;
 }
 
-void serial_print(unsigned short com, char str[]) {
+void serial_print(unsigned short com, char *str) {
 	char *ptr = str;
 	while (1) {
 		if (!serial_check_fifo_empty(com)) continue;
@@ -57,4 +57,33 @@ void serial_print(unsigned short com, char str[]) {
 		if (*ptr == '\0') break;
 	}
 	return;
+}
+
+void serial_print_uint(unsigned int data, unsigned int base) {
+	
+	if (base==0) return;
+
+	char *num_list = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char num_str[11];
+	char i, j, swap;
+
+	for (i=0; i<11; i++) num_str[i] = '\0';
+	i=0;
+	while (i!=10) {
+		num_str[i++] = num_list[data%base];
+		data /= base;
+		if (!data) break;
+	}
+
+	j = 0;
+	while (num_str[j] != '\0') j++;
+
+	for (i=0; i<j/2; i++) {
+		num_str[i] += num_str[j-1-i];
+		num_str[j-1-i] = num_str[i] - num_str[j-1-i];
+		num_str[i] -= num_str[j-1-i];
+	}
+	
+	serial_print(SERIAL_COM1_BASE, num_str);
+	serial_print(SERIAL_COM1_BASE, "\n");
 }

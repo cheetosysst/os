@@ -49,4 +49,12 @@ int serial_check_fifo_empty(unsigned int com);
  */
 void serial_print(unsigned short com, char str[]);
 
+/**
+ * @brief Prints a unsigned int.
+ * 
+ * @param data 
+ * @param base 
+ */
+void serial_print_uint(unsigned int data, unsigned int base);
+
 #endif

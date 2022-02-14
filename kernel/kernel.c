@@ -10,6 +10,7 @@ void kmain(void) {
 
 	serial_general_setup();
 	serial_print(SERIAL_COM1_BASE, "Hello world!\n");
+	serial_print_uint(172, 16);
 
 	return;
 }
