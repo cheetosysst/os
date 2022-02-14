@@ -65,23 +65,23 @@ void serial_print_uint(unsigned int data, unsigned int base) {
 
 	char *num_list = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	char num_str[11];
-	char i, j, swap;
+	char i, j;
 
-	for (i=0; i<11; i++) num_str[i] = '\0';
+	for (i=0; i<11; i++) num_str[(unsigned int)i] = '\0';
 	i=0;
-	while (i!=10) {
-		num_str[i++] = num_list[data%base];
+	while ((unsigned int)i!=10) {
+		num_str[(unsigned int)i++] = num_list[data%base];
 		data /= base;
 		if (!data) break;
 	}
 
 	j = 0;
-	while (num_str[j] != '\0') j++;
+	while (num_str[(unsigned int)j] != '\0') j++;
 
 	for (i=0; i<j/2; i++) {
-		num_str[i] += num_str[j-1-i];
-		num_str[j-1-i] = num_str[i] - num_str[j-1-i];
-		num_str[i] -= num_str[j-1-i];
+		num_str[(unsigned int)i] += num_str[(unsigned int)j-1-i];
+		num_str[(unsigned int)j-1-i] = num_str[(unsigned int)i] - num_str[(unsigned int)j-1-i];
+		num_str[(unsigned int)i] -= num_str[(unsigned int)j-1-i];
 	}
 	
 	serial_print(SERIAL_COM1_BASE, num_str);
