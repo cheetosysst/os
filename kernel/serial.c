@@ -48,6 +48,14 @@ int serial_check_fifo_empty(unsigned int com) {
 	return inb(SERIAL_LINE_STATUS_PORT(com)) & 0x20;
 }
 
+void serial_putc(unsigned short com, char chr) {
+	while (1) {
+		if (!serial_check_fifo_empty(com)) continue;
+		outb(SERIAL_COM1_BASE, chr);
+		break;
+	}
+}
+
 void serial_print(unsigned short com, char *str) {
 	char *ptr = str;
 	while (1) {
@@ -59,7 +67,7 @@ void serial_print(unsigned short com, char *str) {
 	return;
 }
 
-void serial_print_uint(unsigned int data, unsigned int base) {
+void serial_print_uint(unsigned short com, unsigned int data, unsigned int base) {
 	
 	if (base==0) return;
 
@@ -84,6 +92,54 @@ void serial_print_uint(unsigned int data, unsigned int base) {
 		num_str[(unsigned int)i] -= num_str[(unsigned int)j-1-i];
 	}
 	
-	serial_print(SERIAL_COM1_BASE, num_str);
-	serial_print(SERIAL_COM1_BASE, "\n");
+	serial_print(com, num_str);
+}
+
+void serial_printf(unsigned short com, char *fmt, ...)
+{
+	char *fmt_iter = fmt;
+	int *args = (int*)&fmt;
+	args = args + 1;
+	
+	while (1) {
+		
+		if (*fmt_iter == '\0') break;
+
+		if (*fmt_iter != '%') {
+			serial_putc(com, *fmt_iter);
+			fmt_iter = fmt_iter+1;
+			continue;
+		}
+
+		fmt_iter = fmt_iter + 1;
+		switch (*fmt_iter){
+
+			case 'o':
+				serial_print_uint(com, *args, 8);
+				break;
+
+			case 'u':
+				serial_print_uint(com, *args, 10);
+				break;
+
+			case 'x':
+			case 'X':
+				serial_print_uint(com, *args, 16);
+				break;
+
+			case 's':
+				serial_print(com, (char*)*args);
+				break;
+
+			case 'c':
+				serial_putc(com, (char)*args);
+
+			default:
+				break;
+		}
+
+		fmt_iter = fmt_iter + 1;
+		args = args + 1;
+
+	}
 }

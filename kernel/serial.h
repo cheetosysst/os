@@ -42,6 +42,14 @@ void serial_configure_fifo(unsigned short com);
 int serial_check_fifo_empty(unsigned int com);
 
 /**
+ * @brief Prints a single ascii charactor to serial port.
+ * 
+ * @param com 
+ * @param chr 
+ */
+void serial_putc(unsigned short com, char chr);
+
+/**
  * @brief Print a string through to serial com port.
  * 
  * @param com 
@@ -50,11 +58,19 @@ int serial_check_fifo_empty(unsigned int com);
 void serial_print(unsigned short com, char str[]);
 
 /**
+ * @brief Print formated string to serial port.
+ * 
+ * @param fmt 
+ * @param arg 
+ */
+void serial_printf(unsigned short com, char *fmt, ...);
+
+/**
  * @brief Prints a unsigned int.
  * 
  * @param data 
  * @param base 
  */
-void serial_print_uint(unsigned int data, unsigned int base);
+void serial_print_uint(unsigned short com, unsigned int data, unsigned int base);
 
 #endif
