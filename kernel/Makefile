@@ -9,7 +9,6 @@ C_SRCS = $(wildcard *.c)
 ASM_OBJS = $(patsubst %.asm, $(BUILD_DIR)/%.o, $(ASM_SRCS))
 C_OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(C_SRCS))
 OS_OBJS = $(ASM_OBJS) $(C_OBJS)
-$(info $$OS_OBJS is [${OS_OBJS}])
 
 CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 
