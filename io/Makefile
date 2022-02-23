@@ -1,4 +1,4 @@
-BUILD_DIR=../build/kernel
+BUILD_DIR=../build/io
 HEADER_DIR=../headers
 
 CC = gcc
