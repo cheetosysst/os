@@ -9,7 +9,7 @@ BIN_OBJECTS=$(patsubst %.c, $(BUILD_DIR)/%.o, $(C_SOURCES)) $(patsubst %.asm, $(
 KERNEL=$(BUILD_DIR)/kernel_bin
 $(info this $(ASM_SOURCES))
 all: os
-	qemu-system-i386 -machine q35 -kernel $(KERNEL) -serial stdio
+	qemu-system-i386 -machine q35 -m 512M -kernel $(KERNEL) -serial stdio
 
 .PHONY: os $(COMPONENT_DIRS)
 

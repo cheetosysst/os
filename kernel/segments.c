@@ -3,7 +3,7 @@
 #include "cpu.h"
 #include "serial.h"
 
-gdt_object gdt_objects[5];
+gdt_object gdt_objects[6];
 gdt_table table;
 
 void gdt_entries_init() {
@@ -13,14 +13,14 @@ void gdt_entries_init() {
 	table.size = (sizeof(gdt_object)*5)-1;
 	table.base = (unsigned int)&gdt_objects;
 
-	// NULL descriptor (Required)
 	gdt_encode(&gdt_objects[0], 0, 0, 0, 0);
 	gdt_encode(&gdt_objects[1], 0, 0xfffff, 0x9a, 0xcf);
 	gdt_encode(&gdt_objects[2], 0, 0xfffff, 0x92, 0xcf);
 	gdt_encode(&gdt_objects[3], 0, 0xfffff, 0xfa, 0xcf);
-	serial_print(SERIAL_COM1_BASE, "Flag.\n");
 	gdt_encode(&gdt_objects[4], 0, 0xfffff, 0xf2, 0xcf);
+	gdt_encode(&gdt_objects[5], 0xffffffff, 0xfffff, 0xe9, 0x0f);
 
+	serial_print(SERIAL_COM1_BASE, "Flag.\n");
 	gdt_flush((unsigned int)&table);
 	serial_printf(SERIAL_COM1_BASE, "GDT flushed\n");
 }
@@ -54,7 +54,6 @@ void gdt_entries_init() {
  * @param source 
  */
 void gdt_encode(gdt_object *target, unsigned int base, unsigned int limit, unsigned char access, unsigned char flags) {
-	cpu_cli();
 	
 	if (limit > 0xFFFFF) {
 		serial_printf(SERIAL_COM1_BASE, "GDT source limit error.\nlimit: %X\nbase: %X\n", limit, base);
@@ -71,17 +70,4 @@ void gdt_encode(gdt_object *target, unsigned int base, unsigned int limit, unsig
 	target->access = access;
  
 	target->flags_limit |= (flags) & 0xF0;
-
-	// serial_printf(
-	// 	SERIAL_COM1_BASE,
-	// 	"limit_low: %x\nbase_low: %x\nbase_mid: %x\naccess_byte: %x\nflags_limit: %x\nbase_high: %x\n\n",
-	// 	target->limit_low,
-	// 	target->base_low,
-	// 	target->base_mid,
-	// 	target->access,
-	// 	target->flags_limit,
-	// 	target->base_high
-	// );
-
-	cpu_sti();
 }
