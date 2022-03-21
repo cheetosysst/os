@@ -51,16 +51,6 @@ load_idt:
 	lidt [eax]
 	ret
 
-global cpu_cli
-cpu_cli:
-	cli
-	ret
-
-global cpu_sti
-cpu_sti:
-	sti
-	ret
-
 gdtr dw 0
 	 dd 0
 

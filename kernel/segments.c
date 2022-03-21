@@ -20,7 +20,6 @@ void gdt_entries_init() {
 	gdt_encode(&gdt_objects[4], 0, 0xfffff, 0xf2, 0xcf);
 	gdt_encode(&gdt_objects[5], 0xffffffff, 0xfffff, 0xe9, 0x0f);
 
-	serial_print(SERIAL_COM1_BASE, "Flag.\n");
 	gdt_flush((unsigned int)&table);
 	serial_printf(SERIAL_COM1_BASE, "GDT flushed\n");
 }
