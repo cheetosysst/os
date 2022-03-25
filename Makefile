@@ -14,7 +14,7 @@ all: os
 .PHONY: os $(COMPONENT_DIRS)
 
 os: $(COMPONENT_DIRS)
-	$(LD) -m elf_i386 -T linker.ld -o $(KERNEL) $(BIN_OBJECTS)
+	$(LD) -m elf_i386 -e start -o $(KERNEL) $(BIN_OBJECTS)
 
 $(COMPONENT_DIRS):
 	mkdir -p $(BUILD_DIR)/$@
@@ -24,7 +24,7 @@ clean:
 	rm -r $(BUILD_DIR)/*
 
 debug:
-	qemu-system-i386 -machine q35 -kernel $(KERNEL) -gdb tcp::26000 -S -serial stdio
+	qemu-system-i386 -machine q35 -m 512M -kernel $(KERNEL) -gdb tcp::26000 -S -serial stdio 
 
 gdb:
 	gdb --command=gdb.txt 

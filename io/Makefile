@@ -16,7 +16,7 @@ CFLAGS = -I $(HEADER_DIR) -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-pr
 all: $(OS_OBJS)
 
 $(BUILD_DIR)/%.o: %.asm
-	$(AS) -f elf32 $< -o $@
+	$(AS) -f elf32 -F dwarf -g $< -o $@
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC) -m32 -c $< -o $@ $(CFLAGS)
