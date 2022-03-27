@@ -18,7 +18,6 @@ start:
 	hlt
 
 section .bss
-resb 8192
 
 stack_space:
 	resb KERNEL_STACK_SIZE
